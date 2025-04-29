@@ -37,6 +37,5 @@ export async function uploadImage(formData) {
   )
   .catch((err) => console.error("Something terrible happened: ", err));
 
-
   return { success: true, path: `/uploads/${file.name}` };
 }

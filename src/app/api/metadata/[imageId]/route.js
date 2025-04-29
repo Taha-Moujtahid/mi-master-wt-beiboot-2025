@@ -13,7 +13,6 @@ export async function GET(request, { params }) {
 
   const filePath = path.join(uploadDir, imageId+".jpg");
 
-
   const exiftool = require("exiftool-vendored").exiftool;
   exiftool.version().then((version) => {
     console.log(`ExifTool version: ${version}`);
@@ -34,4 +33,22 @@ export async function GET(request, { params }) {
     tags: retTags,
   });
   
+}
+
+
+export async function POST(request, { params }) {
+  const { imageId } = await params;
+
+  const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+  const filePath = path.join(uploadDir, imageId+".jpg");
+  const tags = await request.json();
+  const exiftool = require("exiftool-vendored").exiftool;
+  await exiftool.write(filePath, tags);
+  return NextResponse.json({
+    imageId,
+    tags,
+  });
 }
