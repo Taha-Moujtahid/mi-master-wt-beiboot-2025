@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function ImageList({ files, onImageClick }) {
   return (
     <ul
@@ -7,17 +9,18 @@ export default function ImageList({ files, onImageClick }) {
       {files.map((file) => (
         <li key={file.source} className="relative">
           <div
-            className="group overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 dark:focus-within:ring-offset-gray-900 cursor-pointer w-full aspect-[10/12] flex flex-col"
+            className="group overflow-hidden rounded-lg focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 dark:focus-within:ring-offset-gray-900 cursor-pointer w-full aspect-[10/12] flex flex-col"
             onClick={() => onImageClick && onImageClick(file)}
             tabIndex={0}
             role="button"
             style={{ minHeight: 0 }}
           >
-            <img
-              alt=""
+            <Image
               src={file.source}
-              className="pointer-events-none object-cover w-full h-40 sm:h-44 md:h-48 lg:h-52 xl:h-56"
-              style={{ aspectRatio: "10/7" }}
+              width={300}
+              height={300}
+              quality={25}
+              alt={file.title}
             />
             <button type="button" className="absolute inset-0 focus:outline-hidden">
               <span className="sr-only">View details for {file.title}</span>

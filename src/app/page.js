@@ -3,7 +3,8 @@
 import { useEffect, useState, useCallback } from "react";
 import ImageList from "../components/image-list";
 import ImageDropzone from "../components/image-dropzone";
-import IPTCEditor from "@/components/iptc-editor";
+import IPTCEditor from "../components/iptc-editor";
+import UploadWithProgress from "../components/upload-with-progress";
 
 export default function Home() {
   const [images, setImages] = useState([]);
@@ -19,26 +20,24 @@ export default function Home() {
     fetchImages();
   }, [fetchImages]);
 
-  const files = images.map((imgUrl) => {
-    const filename = imgUrl.split("/").pop();
+  const files = images.map((img) => {
+    console.log(img)
     return {
-      source: imgUrl,
-      title: filename,
+      source: img.url,
+      title: img.key,
       size: "",
-      id: filename,
+      id: img.url,
     };
   });
 
   return (
     <div>
-      {files.length > 0 ? (
+      {files.length > 0 && ( //<ImageDropzone onUploadSuccess={fetchImages} />
         <>
           <ImageList files={files} onImageClick={setSelectedImage} />
-          <ImageDropzone onUploadSuccess={fetchImages} />
         </>
-      ) : (
-        <ImageDropzone onUploadSuccess={fetchImages} />
       )}
+       <UploadWithProgress />
       {selectedImage && (
         <IPTCEditor
           file={selectedImage}

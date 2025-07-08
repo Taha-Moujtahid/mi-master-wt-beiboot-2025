@@ -25,13 +25,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-div {
-  background-color: #171717ae;
-}
-
-div > div{
-  background-color: #00000000;
-}
 
 .topoBackground {
   background-color: #225533;

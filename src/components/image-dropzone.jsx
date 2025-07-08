@@ -2,6 +2,7 @@
 import { PhotoIcon } from "@heroicons/react/24/solid"
 import { useState } from "react"
 import { uploadImage } from "../app/upload/functions";
+import UploadWithProgress from "./upload-with-progress";
 
 export default function ImageDropzone({ onUploadSuccess }) {
 
@@ -68,6 +69,7 @@ export default function ImageDropzone({ onUploadSuccess }) {
           Upload erfolgreich!
         </div>
       )}
+     
       <form action={uploadImage}>
         <div className="flex items-center justify-center h-screen"
           onDragOver={handleDragOver}
