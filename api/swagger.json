@@ -1,0 +1,253 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/projects/{projectId}/images": {
+      "post": {
+        "operationId": "ProjectsController_uploadImages",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "get": {
+        "operationId": "ProjectsController_getProjectImages",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/projects/{projectId}/image/{imageId}": {
+      "put": {
+        "operationId": "ProjectsController_updateImage",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "imageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "delete": {
+        "operationId": "ProjectsController_deleteImage",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "imageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/projects": {
+      "post": {
+        "operationId": "ProjectsController_createProject",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "get": {
+        "operationId": "ProjectsController_getProjects",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "put": {
+        "operationId": "ProjectsController_updateProject",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/projects/public": {
+      "get": {
+        "operationId": "ProjectsController_getPublicProjects",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/projects/{projectId}/images/{imageId}/metadata": {
+      "get": {
+        "operationId": "ProjectsController_getImageMetadata",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "imageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "post": {
+        "operationId": "ProjectsController_setImageMetadata",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "imageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "operationId": "UsersController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Beiboot API",
+    "description": "API documentation for Beiboot",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {}
+  }
+}

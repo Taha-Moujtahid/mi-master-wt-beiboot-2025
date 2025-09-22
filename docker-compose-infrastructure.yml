@@ -1,0 +1,130 @@
+version: '3.9'
+services:
+  minio-bucket-setup:
+    image: node:20-alpine
+    container_name: minio-bucket-setup
+    working_dir: /app
+    volumes:
+      - ./scripts:/app/scripts
+    depends_on:
+      - minio
+    entrypoint: ["sh", "-c", "node scripts/minio-bucket-setup.js"]
+    environment:
+      - MINIO_HOST=minio
+      - MINIO_PORT=9000
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_BUCKET=beiboot
+    networks:
+      - beiboot
+  setup:
+    image: node:20-alpine
+    container_name: setup
+    working_dir: /app
+    volumes:
+      - ./scripts:/app/scripts
+      - ./apps/frontend:/app/apps/frontend
+      - ./apps/api:/app/apps/api
+    entrypoint: ["sh", "-c", "npm install axios && node scripts/keycloak-setup.js"]
+    environment:
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_REALM=beiboot
+      - KEYCLOAK_CLIENT_ID=frontend
+      - KEYCLOAK_USER=user
+      - KEYCLOAK_PASSWORD=password
+      - KEYCLOAK_REDIRECT_URI=http://localhost:3000/*
+      - KEYCLOAK_ADMIN_USER=admin
+      - KEYCLOAK_ADMIN_PASS=admin
+    depends_on:
+      - keycloak
+      - minio-bucket-setup
+    networks:
+      - beiboot
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: beiboot
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - beiboot
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.2
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/beiboot
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+    command: start-dev
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    networks:
+      - beiboot
+
+  opensearch:
+    image: opensearchproject/opensearch:2.13.0
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=7e8<+6Z(=AAr
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - '9200:9200'
+      - '9600:9600'
+    networks:
+      - beiboot
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.13.0
+    container_name: opensearch-dashboards
+    ports:
+      - '5601:5601'
+    environment:
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
+      - OPENSEARCH_HOSTS=["http://opensearch:9200"]
+    depends_on:
+      - opensearch
+    networks:
+      - beiboot
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - beiboot
+
+
+volumes:
+  pgdata:
+  minio-data:
+
+networks:
+  beiboot:
+    driver: bridge

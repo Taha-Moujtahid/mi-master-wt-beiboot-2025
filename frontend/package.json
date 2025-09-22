@@ -1,0 +1,41 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint",
+    "install:swagger-codegen": "brew install swagger-codegen",
+    "generate:swagger-client": "swagger-codegen generate -i ../api/swagger.json -l typescript-fetch -o ./src/apis/beiboot-api && sed -i 's#const BASE_PATH = .*#const BASE_PATH = process.env.NEXT_PUBLIC_API_URL!;#' ./src/apis/beiboot-api/api.ts"
+  },
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tanstack/react-query": "^5.90.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "isomorphic-fetch": "^3.0.0",
+    "lucide-react": "^0.544.0",
+    "material-symbols": "^0.35.2",
+    "next": "15.5.3",
+    "next-auth": "^4.24.11",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.3",
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.3.8",
+    "typescript": "^5"
+  }
+}
