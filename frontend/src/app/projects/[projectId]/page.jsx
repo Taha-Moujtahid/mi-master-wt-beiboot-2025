@@ -8,11 +8,12 @@ import { useSession } from "next-auth/react";
 import { ProjectsApi } from '@/apis/beiboot-api/api';
 import { useNotification } from "@/stores/useNotification";
 import { useImageGalleryStore } from "../../../stores/useImageGalleryStore";
+import MultiImageEditor from "@/components/MultiImageEditor";
 
 export default function ProjectGalleryPage() {
 
   const {addNotification} = useNotification();
-  const {selectedImage, setSelectedImage} = useImageGalleryStore()
+  const {selectedImages, setSelectedImages} = useImageGalleryStore()
 
   const params = useParams();
   let projectId = Array.isArray(params.projectId) ? params.projectId[0] : params.projectId;
@@ -125,8 +126,12 @@ export default function ProjectGalleryPage() {
             <div>Loading images...</div>
           ) : (
             <div className="flex gap-4">
-            <ImageGallery images={images} onDeleteImage={handleDeleteImage}/>
-            <ImageEditor/>
+              <ImageGallery images={images} onDeleteImage={handleDeleteImage}/>
+              {selectedImages && selectedImages.length > 1 ? (
+                <MultiImageEditor />
+              ) : (
+                <ImageEditor />
+              )}
             </div>
           )}
         </div>
